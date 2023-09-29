@@ -42,6 +42,9 @@ document.addEventListener("DOMContentLoaded", function () {
     event.preventDefault();
     addTodo();
   });
+  if (isStorageExist()) {
+    loadDataFromStorage();
+  }
 });
 
 function addTodo() {
