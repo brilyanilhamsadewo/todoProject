@@ -2,6 +2,9 @@ const todos = [];
 const RENDER_EVENT = "render-todo";
 const SAVED_EVENT = "saved-todo";
 const STORAGE_KEY = "TODO_APPS";
+const toastElement = document.createElement("div");
+toastElement.classList.add("toast");
+
 
 function loadDataFromStorage() {
   const serializedData = localStorage.getItem(STORAGE_KEY);
@@ -17,7 +20,16 @@ function loadDataFromStorage() {
 }
 
 document.addEventListener(SAVED_EVENT, function () {
-  console.log(localStorage.getItem(STORAGE_KEY));
+  const newData = localStorage.getItem(STORAGE_KEY);
+  if (newData) {
+    toastElement.textContent = `Data telah diperbarui: ${newData}`;
+    document.body.appendChild(toastElement);
+
+    // Hapus pesan toast setelah beberapa detik (misalnya, 3 detik)
+    setTimeout(function () {
+      document.body.removeChild(toastElement);
+    }, 3000);
+  }
 });
 
 function isStorageExist() /* boolean */ {
