@@ -61,6 +61,14 @@ function findTodoIndex(todoId) {
 
   return -1;
 }
+function undoTaskFromCompleted(todoId) {
+  const todoTarget = findTodo(todoId);
+
+  if (todoTarget == null) return;
+
+  todoTarget.isCompleted = false;
+  document.dispatchEvent(new Event(RENDER_EVENT));
+}
 
 function makeTodo(todoObject) {
   const textTitle = document.createElement("h2");
