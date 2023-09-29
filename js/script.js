@@ -1,6 +1,14 @@
 const todos = [];
 const RENDER_EVENT = "render-todo";
 
+function saveData() {
+  if (isStorageExist()) {
+    const parsed = JSON.stringify(todos);
+    localStorage.setItem(STORAGE_KEY, parsed);
+    document.dispatchEvent(new Event(SAVED_EVENT));
+  }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   const submitForm = document.getElementById("form");
   submitForm.addEventListener("submit", function (event) {
@@ -23,6 +31,7 @@ function addTodo() {
   todos.push(todoObject);
 
   document.dispatchEvent(new Event(RENDER_EVENT));
+  saveData();
 }
 
 function generateId() {
@@ -69,6 +78,7 @@ function removeTaskFromCompleted(todoId) {
 
   todos.splice(todoTarget, 1);
   document.dispatchEvent(new Event(RENDER_EVENT));
+  saveData();
 }
 
 function undoTaskFromCompleted(todoId) {
@@ -78,6 +88,7 @@ function undoTaskFromCompleted(todoId) {
 
   todoTarget.isCompleted = false;
   document.dispatchEvent(new Event(RENDER_EVENT));
+  saveData();
 }
 
 function makeTodo(todoObject) {
@@ -133,6 +144,7 @@ function addTaskToCompleted(todoId) {
 
   todoTarget.isCompleted = true;
   document.dispatchEvent(new Event(RENDER_EVENT));
+  saveData();
 }
 
 function findTodo(todoId) {
